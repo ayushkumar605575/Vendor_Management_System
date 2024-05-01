@@ -1,9 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.db.models import Count, Avg
-from django.db.models import F
-from django.db import models
+from django.db.models import Count, Avg, F
 from django.utils import timezone
 
 class Vendor(models.Model):
@@ -63,8 +61,6 @@ def update_vendor_performance(sender, instance, **kwargs):
 
 @receiver(post_save, sender=PurchaseOrder)
 def update_response_time(sender, instance, **kwargs):
-    # if instance.acknowledgment_date:
-        # Update Average Response Time
         response_times = PurchaseOrder.objects.filter(vendor=instance.vendor, acknowledgment_date__isnull=False).values_list('acknowledgment_date', 'issue_date')
         average_response_time = sum((ack_date - issue_date ).total_seconds() for ack_date, issue_date in response_times)   #/ len(response_times)
         if average_response_time < 0:
@@ -79,8 +75,8 @@ def update_response_time(sender, instance, **kwargs):
 @receiver(post_save, sender=PurchaseOrder)
 def update_fulfillment_rate(sender, instance, **kwargs):
     # Update Fulfillment Rate
-    fulfilled_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')  #, quality_rating__isnull=False)
-    fulfillment_rate = fulfilled_orders.count() / PurchaseOrder.objects.filter(vendor=instance.vendor).count()
+    completed_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')  #, quality_rating__isnull=False)
+    fulfillment_rate = completed_orders.count() / PurchaseOrder.objects.filter(vendor=instance.vendor).count()
     instance.vendor.fulfillment_rate = fulfillment_rate
     instance.vendor.save()
 
