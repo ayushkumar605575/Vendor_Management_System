@@ -1,14 +1,14 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.db.models import Count, Avg, F
+from django.db.models import Avg, F
 from django.utils import timezone
 
 class Vendor(models.Model):
+    vendor_code = models.CharField(max_length=50, unique=True, primary_key=True)
     name = models.CharField(max_length=255)
     contact_details = models.TextField()
     address = models.TextField()
-    vendor_code = models.CharField(max_length=50, unique=True, primary_key=True)
     on_time_delivery_rate = models.FloatField(default=0)
     quality_rating_avg = models.FloatField(default=0)
     average_response_time = models.FloatField(default=0)
@@ -16,7 +16,7 @@ class Vendor(models.Model):
 
     def __str__(self):
         return self.name
-
+    
 class PurchaseOrder(models.Model):
     po_number = models.CharField(max_length=50, unique=True, primary_key=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
@@ -31,6 +31,28 @@ class PurchaseOrder(models.Model):
 
     def __str__(self):
         return self.po_number
+    
+@receiver(post_save, sender=PurchaseOrder)
+def update_vendor_performance(sender, instance, **kwargs):
+    if instance.status == 'completed' and instance.delivered_data is None:
+        instance.delivered_data = timezone.now()
+        instance.save()
+
+    # Update On-Time Delivery Rate
+    completed_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')
+    on_time_deliveries = completed_orders.filter(delivery_date__gte=F('delivered_data'))
+    if completed_orders.count() == 0:
+        on_time_delivery_rate = None
+    else:
+        on_time_delivery_rate = on_time_deliveries.count() / completed_orders.count()
+    instance.vendor.on_time_delivery_rate = on_time_delivery_rate if on_time_delivery_rate else 0
+
+    # Update Quality Rating Average
+    completed_orders_with_rating = completed_orders.exclude(quality_rating__isnull=True)
+    quality_rating_avg = completed_orders_with_rating.aggregate(Avg('quality_rating'))['quality_rating__avg'] or 0
+    instance.vendor.quality_rating_avg = quality_rating_avg if quality_rating_avg else 0
+    instance.vendor.save()
+
 
 class HistoricalPerformance(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
@@ -40,24 +62,6 @@ class HistoricalPerformance(models.Model):
     average_response_time = models.FloatField()
     fulfillment_rate = models.FloatField()
 
-@receiver(post_save, sender=PurchaseOrder)
-def update_vendor_performance(sender, instance, **kwargs):
-    if instance.status == 'completed' and instance.delivered_data is None:
-        instance.delivered_data = timezone.now()
-        instance.save()
-
-    # Update On-Time Delivery Rate
-    completed_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')
-    # on_time_delivery_rate = completed_orders.filter(delivery_date__lte=instance.delivery_date).count() / completed_orders.count()
-    on_time_deliveries = completed_orders.filter(delivery_date__gte=F('delivered_data'))
-    on_time_delivery_rate = on_time_deliveries.count() / completed_orders.count()
-    instance.vendor.on_time_delivery_rate = on_time_delivery_rate if on_time_delivery_rate else 0
-
-    # Update Quality Rating Average
-    completed_orders_with_rating = completed_orders.exclude(quality_rating__isnull=True)
-    quality_rating_avg = completed_orders_with_rating.aggregate(Avg('quality_rating'))['quality_rating__avg'] or 0
-    instance.vendor.quality_rating_avg = quality_rating_avg if quality_rating_avg else 0
-    instance.vendor.save()
 
 @receiver(post_save, sender=PurchaseOrder)
 def update_response_time(sender, instance, **kwargs):
@@ -75,7 +79,7 @@ def update_response_time(sender, instance, **kwargs):
 @receiver(post_save, sender=PurchaseOrder)
 def update_fulfillment_rate(sender, instance, **kwargs):
     # Update Fulfillment Rate
-    completed_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')  #, quality_rating__isnull=False)
+    completed_orders = PurchaseOrder.objects.filter(vendor=instance.vendor, status='completed')
     fulfillment_rate = completed_orders.count() / PurchaseOrder.objects.filter(vendor=instance.vendor).count()
     instance.vendor.fulfillment_rate = fulfillment_rate
     instance.vendor.save()
