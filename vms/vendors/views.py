@@ -9,7 +9,7 @@ from rest_framework import generics
 class VendorListCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = Vendor.objects.all()
+    queryset = Vendor.objects.all().order_by('vendor_code')
     serializer_class = VendorSerializer
 
 vendorListCreateView = VendorListCreateView.as_view()
@@ -17,7 +17,7 @@ vendorListCreateView = VendorListCreateView.as_view()
 class VendorRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = Vendor.objects.all()
+    queryset = Vendor.objects.all().order_by('vendor_code')
     serializer_class = VendorSerializer
 
 vendorRetrieveUpdateDeleteView = VendorRetrieveUpdateDeleteView.as_view()
@@ -42,7 +42,7 @@ purchaseOrderRetrieveUpdateDeleteView = PurchaseOrderRetrieveUpdateDeleteView.as
 class VendorPerformanceView(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = Vendor.objects.all()
+    queryset = Vendor.objects.all().order_by('vendor_code')
     serializer_class = VendorSerializer
 
 
