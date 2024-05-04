@@ -172,7 +172,8 @@ with requests.Session() as session:
             response = session.put(f'http://localhost:8000/api/purchase_orders/{order_id}/', headers = auth, data = data)
 
             print("--------------------------------")
-            print("Order det")
+            if response.status_code == 200:
+                print("Order updated successfully with current timestamp")
             print(response.text)
             print("--------------------------------")
 
@@ -188,7 +189,7 @@ with requests.Session() as session:
                     # "status":"Order Placed",
                     "quality_rating" : float(input("Enter Quality Rating(Float Value): ")),
                     # "issue_date":datetime.now(),
-                    # "acknowledgment_date":datetime.now(),
+                    "acknowledgment_date":datetime.now(),
                     # "vendor":str(input("Enter Vendor Code:(Case Sensitive) "))
                     }
 
