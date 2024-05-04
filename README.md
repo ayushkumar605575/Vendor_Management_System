@@ -1,6 +1,7 @@
-# Django REST API Setup
+# Vendor Management System
 
-This repository contains a Django project with a RESTful API using Django REST Framework.
+A Django project with a RESTful API using Django REST Framework.
+
 
 ## Prerequisites
 
@@ -13,36 +14,32 @@ This repository contains a Django project with a RESTful API using Django REST F
 ## Create a Virtual Environment:
 - Clone the repository
 - Open terminal inside the main repo folder and run the following command:
-- python -m venv env
-- env\Scripts\activate.bat
-- Your Virtual Environment is successfully created.
+- `python -m venv env`
+- `env\Scripts\activate.bat`
+- Your Virtual Environment is successfully created and activated.
 
 ## Install Dependencies:
-- Run 'pip install -r requirements.txt' to install the requirements needed for this project.
+- Run `pip install -r requirements.txt` to install the requirements needed for this project.
 
 ## Database migration       
-- Go inside the project folder 'vms' by executing 'cd vms' command.
+- Go inside the project folder `vms` by executing `cd vms` command in terminal.
 - Once you are inside the project folder run the following command.             
-- python manage.py makemigrations      
-- python manage.py migrate
+- `python manage.py makemigrations`      
+- `python manage.py migrate`
 
 ## Superuser creation
-- python manage.py createsuperuser
+- Run `python manage.py createsuperuser` on terminal to create the superuser.
 
 ## Run the Server
-- python manage.py runserver
-
-# Test different API endpoints of the server
-- Run 'endpoint_request.py' file and follow the on-screen instructions to test the different functionality of the server.
+- Run `python manage.py runserver` on terminal to run the server everytime.
 
 ## Access Django Admin:
 - Open the Django admin panel at http://127.0.0.1:8000/admin/ and log in using the superuser credentials.
 - Access the database as Admin user.
 
-## Running API endpoints:
-- Make sure the models are migrated to database, using the above database migration commands.
-- Start the server by executing "python manage.py runserver" command in vms directory containing "manage.py" file.
-- Open a terminal window for testing the API endpoints using curl commands.
+# Test different API endpoints of the server
+- Run 'endpoint_request.py' file and follow the on-screen instructions to test the different functionality of the server.
+- This file is specifically made to test the different API endpoints.
 
 ### Endpoints
 1.  GET /api/vendors/
