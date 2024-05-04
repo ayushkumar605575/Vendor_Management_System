@@ -3,15 +3,15 @@ from datetime import datetime
 
 Choice = '''
 Choose your endpoint to test:
-1. GET /api/vendors/
-2  POST /api/vendors/
-3. GET api/vendors/{vendors_id}/
-4. PUT api/vendors/{vendors_id}/
-5. DELETE api/vendors/{vendors_id}/
-6. GET api/vendors/{vendors_id}/performance/
-7. GET api/purchase_orders/
-8. POST api/purchase_orders/
-9. GET api/purchase_orders/{order_id}/
+1.  GET /api/vendors/
+2.  POST /api/vendors/
+3.  GET api/vendors/{vendors_id}/
+4.  PUT api/vendors/{vendors_id}/
+5.  DELETE api/vendors/{vendors_id}/
+6.  GET api/vendors/{vendors_id}/performance/
+7.  GET api/purchase_orders/
+8.  POST api/purchase_orders/
+9.  GET api/purchase_orders/{order_id}/
 10. PUT purchase_orders/{order_id}/
 11. PATCH purchase_orders/{order_id}/
 12. DELETE purchase_orders/{order_id}/
