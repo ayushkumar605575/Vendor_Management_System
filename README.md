@@ -38,7 +38,7 @@ A Django project with a RESTful API using Django REST Framework.
 - Access the database as Admin user.
 
 # Test different API endpoints of the server
-- Run 'endpoint_request.py' file and follow the on-screen instructions to test the different functionality of the server.
+- Run `endpoint_request.py` file and follow the on-screen instructions to test the different functionality of the server.
 - This file is specifically made to test the different API endpoints.
 
 ### Endpoints
