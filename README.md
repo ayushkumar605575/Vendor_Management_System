@@ -11,17 +11,18 @@ This repository contains a Django project with a RESTful API using Django REST F
 # Setup Instructions
 
 ## Create a Virtual Environment:
-- Open terminal inside a folder (of your choice) and run the following command:
+- Clone the repository
+- Open terminal inside the main repo folder and run the following command:
 - python -m venv env
 - env\Scripts\activate.bat
-- Copy the project directory along with the 'env' directory
+- Your Virtual Environment is successfully created.
 
 ## Install Dependencies:
-- pip install django
-- pip install djangorestframework
-- pip install requests (for testing APIs)
+- Run 'pip install -r requirements.txt' to install the requirements needed for this project.
 
-## Database migration                    
+## Database migration       
+- Go inside the project folder 'vms' by executing 'cd vms' command.
+- Once you are inside the project folder run the following command.             
 - python manage.py makemigrations      
 - python manage.py migrate
 
