@@ -24,11 +24,11 @@ cred = {'username':str(input("Enter your superuser username: ")), 'password':str
 with requests.Session() as session:
     response = session.post('http://localhost:8000/api-token-auth/', data= cred)
     # print(response.headers)
-    
+
     # print(response.status_code)
     try:
         auth = {'Authorization': f"Token {response.json()['token']}"}
-    except:
+    except Exception:
         print("Wrong Username or Password\nExiting...")
         exit()
     print("------------------------")
@@ -38,7 +38,7 @@ with requests.Session() as session:
         print(Choice)
         try:
             choice = int(input("Enter your Choice: "))
-        except:
+        except Exception:
             continue
         if choice == 1:
             response = session.get('http://localhost:8000/api/vendors/', headers = auth)
@@ -117,7 +117,7 @@ with requests.Session() as session:
             print(response.text)
             print("--------------------------------")
         elif choice == 7:
-            
+
             response = session.get('http://localhost:8000/api/purchase_orders/', headers = auth)
 
             print("--------------------------------")
@@ -136,7 +136,7 @@ with requests.Session() as session:
                     "acknowledgment_date":datetime.now(),
                     "vendor":str(input("Enter Vendor Code:(Case Sensitive) ")),
                     }
-            
+
             response = session.post('http://localhost:8000/api/purchase_orders/', headers = auth, data = data)
 
             print("--------------------------------")
@@ -157,27 +157,29 @@ with requests.Session() as session:
 
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
 
-            data = {"po_number":str(input("Enter New Purchase Order Code: ")),
+            data = {"po_number": order_id,
                     "order_date":datetime.now(),
                     "delivery_date":"2025-05-23T21:59:00Z",
                     "delivered_data":None,
                     "items":json.dumps([{"item_name":"Name1"},{"item_name":"Name2"}]),
-                    "status":"Order Placed","quality_rating":88.0,
+                    "status":"Order Placed",
+                    "quality_rating":0.0,
                     "issue_date":datetime.now(),
                     "acknowledgment_date":datetime.now(),
-                    "vendor":str(input("Enter Vendor Code:(Case Sensitive) "))
+                    "vendor":str(input("Enter Vendor Code Assigned with this Order:(Case Sensitive) "))
                     }
-            
+
             response = session.put(f'http://localhost:8000/api/purchase_orders/{order_id}/', headers = auth, data = data)
 
             print("--------------------------------")
+            print("Order det")
             print(response.text)
             print("--------------------------------")
 
         elif choice == 11:
 
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
-            
+
             data = {"po_number":order_id,
                     # "order_date":datetime.now(),
                     # "delivery_date":"2025-05-23T21:59:00Z",
@@ -219,7 +221,9 @@ with requests.Session() as session:
             response = session.patch(f'http://localhost:8000/api/purchase_orders/{order_id}/acknowledge/', headers = auth, data = data)
 
             print("--------------------------------")
-            print("Acknowledged Date Updated to Current Time")
+            if response.status_code == 200:
+                print("Acknowledged Date Updated to Current Time")
+            print(response.text)
             print("--------------------------------")
 
         else:
