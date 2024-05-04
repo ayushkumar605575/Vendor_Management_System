@@ -1,1 +1,16 @@
 /env
+vms/db.sqlite3
+vms/vendors/__pycache__/__init__.cpython-311.pyc
+vms/vendors/__pycache__/admin.cpython-311.pyc
+vms/vendors/__pycache__/apps.cpython-311.pyc
+vms/vendors/__pycache__/models.cpython-311.pyc
+vms/vendors/__pycache__/serializer.cpython-311.pyc
+vms/vendors/__pycache__/urls.cpython-311.pyc
+vms/vendors/__pycache__/views.cpython-311.pyc
+vms/vendors/migrations/0001_initial.py
+vms/vendors/migrations/__pycache__/__init__.cpython-311.pyc
+vms/vendors/migrations/__pycache__/0001_initial.cpython-311.pyc
+vms/vms/__pycache__/__init__.cpython-311.pyc
+vms/vms/__pycache__/settings.cpython-311.pyc
+vms/vms/__pycache__/urls.cpython-311.pyc
+vms/vms/__pycache__/wsgi.cpython-311.pyc
