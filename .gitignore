@@ -1,4 +1,4 @@
-/env
+env
 vms/db.sqlite3
 vms/vendors/__pycache__/__init__.cpython-311.pyc
 vms/vendors/__pycache__/admin.cpython-311.pyc
@@ -14,3 +14,4 @@ vms/vms/__pycache__/__init__.cpython-311.pyc
 vms/vms/__pycache__/settings.cpython-311.pyc
 vms/vms/__pycache__/urls.cpython-311.pyc
 vms/vms/__pycache__/wsgi.cpython-311.pyc
+.gitignore
