@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from .models import Vendor, PurchaseOrder
 from .serializer import VendorSerializer, PurchaseOrderSerializer
 from rest_framework.response import Response
