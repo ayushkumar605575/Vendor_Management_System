@@ -31,22 +31,26 @@ with requests.Session() as session:
     except Exception:
         print("Wrong Username or Password\nExiting...")
         exit()
+
     print("------------------------")
     print(auth)
     print("------------------------")
+    
     while 1:
         print(Choice)
+
         try:
             choice = int(input("Enter your Choice: "))
         except Exception:
             continue
+
         if choice == 1:
             response = session.get('http://localhost:8000/api/vendors/', headers = auth)
             print("--------------------------------")
             print(response.text)
             print("--------------------------------")
+            
         elif choice == 2:
-
             data = {
                 "vendor_code": str(input("Enter Vendor Code:(Case Sensitive) ")),
                 "name": str(input("Enter Vendor Name: ")),
@@ -67,7 +71,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 3:
-
             vendor_id = str(input("Enter Vendor Code:(Case Sensitive) "))
             response = session.get(f'http://localhost:8000/api/vendors/{vendor_id}/', headers = auth)
             print("--------------------------------")
@@ -76,7 +79,6 @@ with requests.Session() as session:
 
         elif choice == 4:
             vendor_id = str(input("Enter Vendor Code:(Case Sensitive) "))
-
             data = {
                 "vendor_code": vendor_id,
                 "name": str(input("Enter New Vendor Name: ")),
@@ -95,7 +97,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 5:
-
             vendor_id = str(input("Enter Vendor Code:(Case Sensitive) "))
 
             response = session.delete(f'http://localhost:8000/api/vendors/{vendor_id}/', headers = auth)
@@ -108,7 +109,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 6:
-
             vendor_id = str(input("Enter Vendor Code:(Case Sensitive) "))
 
             response = session.get(f'http://localhost:8000/api/vendors/{vendor_id}/performance/', headers = auth)
@@ -116,8 +116,8 @@ with requests.Session() as session:
             print("--------------------------------")
             print(response.text)
             print("--------------------------------")
-        elif choice == 7:
 
+        elif choice == 7:
             response = session.get('http://localhost:8000/api/purchase_orders/', headers = auth)
 
             print("--------------------------------")
@@ -125,7 +125,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 8:
-
             data = {"po_number":str(input("Create Purchase Order Code: ")),
                     "order_date":datetime.now(),
                     "delivery_date":"2025-05-23T21:59:00Z",
@@ -144,7 +143,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 9:
-
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
 
             response = session.get(f'http://localhost:8000/api/purchase_orders/{order_id}/', headers = auth)
@@ -154,7 +152,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 10:
-
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
 
             data = {"po_number": order_id,
@@ -178,7 +175,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 11:
-
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
 
             data = {"po_number":order_id,
@@ -201,7 +197,6 @@ with requests.Session() as session:
 
 
         elif choice == 12:
-
             order_id = str(input("Enter Purchase Order Code:(Case Sensitive) "))
 
             response = session.delete(f'http://localhost:8000/api/purchase_orders/{order_id}/', headers = auth)
@@ -214,7 +209,6 @@ with requests.Session() as session:
             print("--------------------------------")
 
         elif choice == 13:
-
             order_id = str(input("Enter Order ID:(Case Sensitive) "))
 
             data = {"acknowledgment_date":datetime.now()}
